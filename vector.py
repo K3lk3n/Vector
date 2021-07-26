@@ -1,50 +1,68 @@
-import math 
+import math as math 
+from allowed_types import ALLOWED_TYPES
 
-class Vector(object):
-	""" Vector Class """
+class Vector:
+	"""" Vector Class """  
 	def __init__(self, x, y):
-		""" constructor """
-		self._x = x
-		self._y = y
-		 	
-	def getX(self):
-		""" returns x value of vector object"""
-		return self._x
-		
-	def getY(self):
-		""" returns y value of vector object  """
-		return self._y
-		
-	def setX(self, newvalue):
-		""" set new value to x  """
-		self._x = newvalue
-		
-	def setY(self, newvalue):
-		""" sets new value to y  """
-		self._y = newvalue
-		
-	def magnitude(self, other):
-		""" returns magnitude of the vector object """
-		magnitude_var = math.sqrt((other.getX() - self.getX()) ** 2  + (other.getY() - self.getY()) ** 2)
-		return round(magnitude_var)
-			 			 	
+		""" new object """ 
+		if type(x) not in ALLOWED_TYPES:
+			raise TypeError("Argument not compatible")
+		if type(y) not in ALLOWED_TYPES:
+			raise TypeError("Argument not compatible")
+		self._x = x 
+		self._y = y 
+
 	def __str__(self):
-		""" returns string version of the vector object """
-		return str(self._x) + ", " + str(self._y)
-		
+		""""triggers when used print function """
+		return f"{self._x}:{self._y}"
+
 	def __repr__(self):
-		""" representation of the vector object  """
-		return '({}, {})'.format(str(self._x), str(self._y))
-		
+		""""representation of the vector object """
+		return f"({self._x}, {self._y})"
+
+	def getX(self):
+		""""returns x value of vector object """
+		return self._x
+
+	def getY(self):
+		""""returns y value of vector object """
+		return self._y 
+
+	def setX(self, newvalue):
+		""""sets x value to newvalue """
+		if newvalue != int and newvalue != float:
+			raise TypeError("New value not a compatible datatype")
+		self._x = newvalue
+
+	def setY(self, newvalue):
+		""""sets y value to newvalue  """
+		if newvalue != int and newvalue != float:
+			raise TypeError("New value not a compatible datatype")
+		self._y = newvalue
+
 	def __add__(self, other):
-		""" returns the sum of two vectors """
-		return self.getX() + other.getX(), self.getY() + other.getY()
-		
+		""""function triggers when used + """
+		if not isinstance(other, Vector):
+			raise TypeError("Instance not of class Vector")
+		return self._x + other._x, self._y + other._y
+
 	def __sub__(self, other):
-		""" returns the difference of two vectors """
-		return self.getX() - other.getX(), self.getY() - other.getY()
-		
-	def __mul__(self, other):
-		""" returns the product of the vector and a scalar """
-		return self.getX() * other, self.getY() * other
-											
+		""""function triggers when used - """
+		if not isinstance(other, Vector):
+			raise TypeError("Instance not of class Vector")
+		return self._x - other._x, self._y - other._y
+
+	def __mul__(self, scalar):
+		""""function triggers used * """
+		if scalar != int and scalar != float:
+			raise TypeError("Scalar value of wrong datatype")
+		return self._x * scalar, self._y * scalar
+
+	def distance(self, other):
+		""""returns the distance of the points"""
+		if not isinstance(other, Vector):
+			raise TypeError("Instance not of Vector Class")
+		distance_var = ( (other.getX() - self.getX()) ** 2 ) + ( (other.getY() - self.getY()) ** 2 )  
+		result = round(math.sqrt(distance_var), 2)
+		return  str(result) + " units"
+
