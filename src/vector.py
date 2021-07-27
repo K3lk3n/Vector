@@ -53,8 +53,8 @@ class Vector:
 		return self._x - other._x, self._y - other._y
 
 	def __mul__(self, scalar):
-		""""function triggers used * """
-		if scalar != int and scalar != float:
+		""""function triggers when used * """
+		if type(scalar) not in ALLOWED_TYPES:
 			raise TypeError("Scalar value of wrong datatype")
 		return self._x * scalar, self._y * scalar
 
